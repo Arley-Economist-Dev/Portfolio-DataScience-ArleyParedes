@@ -221,7 +221,53 @@ un 65% mas que un cientifico de datos con poco o sin ninguna experiencia
 
 #PAID ACCOUNTS
 
+def predict_paid_or_unpaid(years_experience):
+    if years_experience < 3.0:
+        return "paid"
+    elif years_experience < 8.5:
+        return "unpaid"
+    else:
+        return "paid"
 
+#Ahora veamos los temas de interes
+
+interests = [
+(0, "Hadoop"), (0, "Big Data"), (0, "HBase"), (0, "Java"),
+(0, "Spark"), (0, "Storm"), (0, "Cassandra"),
+(1, "NoSQL"), (1, "MongoDB"), (1, "Cassandra"), (1, "HBase"),
+(1, "Postgres"), (2, "Python"), (2, "scikit-learn"), (2, "scipy"),
+(2, "numpy"), (2, "statsmodels"), (2, "pandas"), (3, "R"), (3, "Python"),
+(3, "statistics"), (3, "regression"), (3, "probability"),
+(4, "machine learning"), (4, "regression"), (4, "decision trees"),
+(4, "libsvm"), (5, "Python"), (5, "R"), (5, "Java"), (5, "C++"),
+(5, "Haskell"), (5, "programming languages"), (6, "statistics"),
+(6, "probability"), (6, "mathematics"), (6, "theory"),
+(7, "machine learning"), (7, "scikit-learn"), (7, "Mahout"),
+(7, "neural networks"), (8, "neural networks"), (8, "deep learning"),
+(8, "Big Data"), (8, "artificial intelligence"), (9, "Hadoop"),
+(9, "Java"), (9, "MapReduce"), (9, "Big Data")
+]
+
+    """En tu primer dia te preguntan sobre los temas en los que 
+    los usuarios se interesan mas
+    """
+    """La forma mas popular de encontrar los intereses mas populares 
+    es contar las palabras
+    1- minusculas en cada interes (desde los usuarios diferentes
+    o que pueden o no capitalizar sus intereses)
+    2- dividir las palabras dentro de las palabras
+    3- contar los resultados
+    """
+
+words_and_counts = Counter(word
+                           for user, interest in interests
+                           for word in interest.lower().split())
+
+#esto se hace mas facil fuera de las palabras que ocurren mas veces
+
+for word, count in words_and_counts.most_common():
+    if count > 1:
+        print(word,count)
 
 
 
