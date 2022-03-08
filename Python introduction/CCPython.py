@@ -292,9 +292,196 @@ tweet = {
     "hashtags" : ["#data", "#science", "#datascience", "#awesome", "#yolo"]
 }
 
+#despues vamos a ver un mejor aproximacion
+"""en vez de buscar keys especificas podemos mirarlas a todas"""
 
+tweet_keys = tweet.keys()   #iterable para las llaves
+tweet_values = tweet.values()   #iterable para los valores
+tweet_items = tweet.items()     #itarable para las tuplas
 
+"user" in tweet_keys    #true, but not pythonic
+"user" in tweet         #pythonic way of checking keys
+"joelgrus" in tweet_values  #true (es lento pero es la unica forma de checkearlo)
 
+"""DEFAULT DICTS"""
+#imagina que tenes queres contar las palabras en un documento
+#podes crear un diccionario donde las keys sean palabras y los valores las cuentas
+#podes agregar las palabras que contes a un diccionario si no las cuentas no
+
+word_counts = {}
+for word in document:
+    if word in word_counts:
+        word_counts[word] += 1
+    else:
+        word_counts[word] = 1
+
+#otra aproximacion es hacerlo viendo el comportamiento para los missing keys
+
+word_counts = {}
+for word in document:
+    previous_count = word_counts.get(word, 0)
+    word_counts[word] = previous_count + 1
+    
+"""Se puede crear un diccionario por defecto usandolo desde un package"""
+
+from collections import defaultdict
+
+word_counts = defaultdict(int)      #int produce 0
+for word in document:
+    word_counts[word] += 1
+
+#ellos pueden ser ademas utiles con una lista o directorio, or incluso tus propias funciones
+
+dd_list = defaultdict(list)         #list() produce una lista vacia
+dd_list[2].append(1)                # ahora dd_list contiene {2: [1]}
+
+dd_dict = defaultdict(dict)         #dict() produce una lista vacia
+dd_dict["Joel"]["City"] = "Seattle" #{"Joel" :{"City" : Seattle"}}
+
+dd_pair = defaultdict(lambda: [0,0])
+dd_pair[2][1] = 1                   #ahora dd_pair contiene {2: [0. 1]}
+
+#esto es util para recoger resultados almacenandolos en un diccionario
+
+"""CONTADORES"""
+
+#un contador regresa una secuencia de valores dentro de un diccionario por defecto
+#es un dic int como un objeto que mapea el conteo de las keys
+
+from collections import Counter
+c = Counter([0, 1, 2, 0])       # c is basically {0: 2, 1: 1, 2: 1}
+
+#esto nos puede ayudar para resolver el problema del conteo de palabras
+
+#recall, document is a list of word
+word_counts = Counter(document)
+
+#hay otro metodo de cuenta que es usado frecuentemente
+
+#imprime los 10 mas comunes y su conteo
+for word, count in word_counts.most_common(10):
+    print (word, count)
+
+"""SETS"""
+#Esta es una util estructura de datos, representa una collecion
+#de distintos elementos que poder definir seteandolos por lista de elemento entre corchetes
+    
+primes_bellow_10 = {2, 3, 5, 7} 
+
+#para generar sets vacios hay que hacer set()
+
+s = set()
+s.add(1)
+s.add(2)
+s.add(2)
+x = len(s)
+y = 2 in s
+z = 3 in s
+
+#se usan mas los set porque se pueden hacer cosas mas rapidas
+#y por si tenemos una larga collection de items que queremos usar para un test de membresia
+
+stopwords_list = ["a", "an", "at"] + hundreds_of_other_words + ["yet", "you"]
+"zip" in stopwords_list # False, but have to check every element
+stopwords_set = set(stopwords_list)
+"zip" in stopwords_set # very fast to check
+
+#la segunda raon is para encontrar distinto item en una colleccion
+
+item_list = [1, 2, 3, 1, 2, 3]
+num_items = len(item_list) # 6
+item_set = set(item_list) # {1, 2, 3}
+num_distinct_items = len(item_set) # 3
+distinct_item_list = list(item_set) # [1, 2, 3]
+
+"""CONTROL FLOW"""
+#PODEMOS USAR UNOS CONDICIONALES PARA HACER COSITAS
+
+if 1 > 2:
+    message = "if only 1 were greater than two..."
+elif 1 > 3:
+    message = "elif stands for 'else if'"
+else:
+    message = "when all else fails use else (if you want to)"
+
+#podes escribir una terna if-then-else en una linea
+
+parity = "even" if x % 2 == 0 else "odd"
+
+#python tiene un loop while
+x = 0
+while x < 10: 
+    print(f"{x} is less than 10")
+    x += 1
+
+#si necesitas una logica mas compleja podes usar un continue o un brake
+
+for x in range(10):
+    if x == 3:
+        continue #go immediately to the next iteration
+    if x == 5:
+        break #sale del loop
+    print(x)
+
+"""VERACIDAD EN PYTHON"""
+#SE USAN BOOLEANOS EN PYTHON Y EN OTROS LENGUALES 
+
+one_is_less_than_two = 1 < 2 # equals True
+true_equals_false = True == False # equals False
+
+x = None
+assert x == None, "this is the not the Pythonic way to check for None"
+assert x is None, "this is the Pythonic way to check for None"
+
+"""formas de obtener un false"""
+
+# False
+# None
+# []
+# {}
+# ""
+# set()
+# 0
+# 0.0
+
+s = some_function_that_returns_a_string()
+if s:
+    first_char = s[0]
+else:
+    first_char = ""
+
+# una forma mas corta pero confusa de hacer lo mismo es
+
+first_char = s and s[0]
+
+#similarmente si x is otro numero o posiblemente none
+
+safe_x = x or 0
+
+#es definitivamente un numero ademas
+
+safe_x = x if x is not None else 0
+
+#es posiblemente mas legible
+
+"""python tiene todas las funciones que toman e iteran true cuado
+el elemento es true, aqui hay algunas de esas funciones"""
+
+all([True, 1, {3}]) #true, all are truthy
+all([True, 1, {}])  #false, {} is falsy
+any([True, 1, {}])  #true, es truthy
+all([])             #true, no falsy
+any([])             #false, no truthy elements in the list
+
+"""ORDENANDO"""
+#todo elemento en python puede ser ordenado
+
+x = [4, 1, 2, 3]
+y = sorted(x) # y is [1, 2, 3, 4], x is unchanged
+x.sort() # now x is [1, 2, 3, 4]
+
+#por defecto las funciones lo ordenan del pequeño al mas grande
+#si lo quieres ordenar de mayor a menor, se puede especificar el rever
 
 
 
