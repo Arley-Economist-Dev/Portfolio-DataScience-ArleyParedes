@@ -1,4 +1,7 @@
-# Here is the charge of a dict for data
+# Aqui se cargan los datos utilizando los diccionarios
+from audioop import reverse
+
+
 users = [
 { "id": 0, "name": "Hero" },
 { "id": 1, "name": "Dunn" },
@@ -12,59 +15,66 @@ users = [
 { "id": 9, "name": "Klein" }
 ]
 
+#aqui se utilizan lista con tuplas para saber que personas estan conectadas
 friendship_pairs = [(0, 1), (0, 2), (1, 2), (1, 3), (2, 3), (3, 4),
 (4, 5), (5, 6), (5, 7), (6, 8), (7, 8), (8, 9)]
 
-# Initialize the dict with an empty list for each user id:
+# Usando dict comprehension se carga una lista vacia para cada usuario en users
 friendships = {user["id"]: [] for user in users}
-# And loop over the friendship pairs to populate it:
+# Hacemos un bucle para llenar la lista con los que estan emparejados
 for i, j in friendship_pairs:
     friendships[i].append(j) # Add j as a friend of user i
     friendships[j].append(i) # Add i as a friend of user j
 
     """ ¿Cual es el numero de conexiones sociales de los usuarios en el diccionario?
-        Esto se hara sumando las longitudes de listas de amigos
+        Esto se hara sumando las longitudes de listas de amigos?
     """
     
 def number_of_friends(user):
-    """How many friends does _user_ have"""
-    user_id = user["id"]
-    friend_ids = friendships[user_id]
-    return len(friend_ids)
+    """Cuantos amigos tiene el usuario"""
+    user_id = user["id"]    #se genera una variable con una lista de id
+    friend_ids = friendships[user_id] #se genera una variable para conocer los id de los amigos
+    return len(friend_ids)  #se cuenta la longitud de la lista para conocer cuantos amigos tiene
 
+# Para conocer el total de las conexciones se suma el numero de amigos del usuario
 total_connections = sum(number_of_friends(user)
-                        for user in users) # 24
+                        for user in users) # el conjunto tiene 24 conexiones
 
 #Ahora solo se divide por el numero de usuarios
 num_users = len(users)  #longitud de la lista de usuarios
-avg_connections = total_connections / num_users #24 / 10 == 2.4
+avg_connections = total_connections / num_users # 24 / 10 == 2.4 en promedio
 
-#Create a list (user_id, number_of_friends).
+#Se crea una lista (user_id, number_of_friends).
 num_friends_by_id = [(user["id"], number_of_friends(user))
                      for user in users]
 
-num_friends_by_id = [(user["id"], number_of_friends(user))
-                     for user in users]                                #largest to smallest
+#La lista anterior se ordena de mayor a menor
+num_friends_by_id.sort(
+    key = lambda id_and_friends: id_and_friends[1],
+    reverse = True) 
 
-# Each pair is (user_id, num_friends):
+# los pares que se forman son (user_id, num_friends):
 # [(1, 3), (2, 3), (3, 3), (5, 3), (8, 3),
 # (0, 2), (4, 2), (6, 2), (7, 2), (9, 1)]
 
 #este es el algoritmo para mostrar gente que podrias conocer
-#Design Data science you may know
-#foaf is the short of friend of a friend
+#foaf es la abreviatura de "friend of a friend"
 
 def foaf_ids_bad(user):
-    """foaf is short for "friend of a friend" """
+    """foaf es la abreviatura de "friend of a friend" """
     return[foaf_id
            for friend_id in friendships[user["id"]]
            for foaf_id in friendships[friend_id]]
-    
-[0, 2, 3, 0, 1, 3]
 
-print(friendships[0]) # [1, 2]
-print(friendships[1]) # [0, 2, 3]
-print(friendships[2]) # [0, 1, 3]
+# Cuando llamamos al usuario por su id[]
+print(friendships[0]) # regresa [1, 2]
+print(friendships[1]) # regresa [0, 2, 3]
+print(friendships[2]) # regresa [0, 1, 3]
+
+#==================================================================================================
+#==================================================================================================
+#==================================================================================================
+#==================================================================================================
 
 from collections import Counter
 
