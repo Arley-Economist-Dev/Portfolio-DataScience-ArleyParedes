@@ -1,0 +1,6 @@
+name: interpy
+channels:
+  - defaults
+dependencies:
+  - pandas
+prefix: /home/babyarley/miniconda3/envs/interpy
