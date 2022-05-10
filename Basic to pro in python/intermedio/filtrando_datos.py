@@ -1,3 +1,4 @@
+#Estructura de datos
 DATA = [
     {
         'name': 'Facundo',
@@ -71,14 +72,23 @@ DATA = [
     },
 ]
 
+#funcion principal
 def run():
-    #encontrando los desarrolladores que solo programan en python con list comprehension
+    
+    """encontrando los desarrolladores que solo programan en python con list comprehension"""
+    
+    #busca a los trabajadores por el key nombre en la base de datos si el trabajador 
+    # cumple la condicion de programar en python
     all_python_devs = [worker["name"] for worker in DATA if worker["language"] == "python"]
-    #encuentro los trabajadores que trabajan en python con list comprehension 
+    
+    #encuentro los trabajadores que trabajan en platzi con list comprehension 
     all_platzi_workers = [worker["name"] for worker in DATA if worker["organization"]== "Platzi"] 
+    
+    """Como filtrar para encontrar a los mayores de edad"""
     
     #aqui se usa filter para encontrar a los mayores de edad
     adults = list(filter(lambda worker: worker["age"] > 18,DATA))
+    
     #se sobreescribe la linea de arriba usando map para que solo aparezcan los nombres 
     adults = list(map(lambda worker: worker["name"], adults)) 
     
@@ -87,15 +97,22 @@ def run():
 
     # Resolviendo con list comprehensions
     adults = [worker["name"] for worker in DATA if worker["age"] > 18]
+    
+    #aqui se encuentra los trabajadores viejo usando list comprehension
+    #la lista genera un dict con key worker y los valores de edad mayor a 70
+    #para cada trabajador en la base de datos
     old_people = [{**worker, **{'old': worker['age'] > 70}} for worker in DATA]
     
-    #Con high order functions
+    
+    """se resuelven los primeros con high order functions"""
     all_python_devs = list(filter(lambda worker: worker['language'] == 'python', DATA))
     all_python_devs = list(map(lambda worker: worker['name'], all_python_devs))
 
     all_platzi_workers = list(filter(lambda worker: worker['organization'] == 'Platzi', DATA))
     all_platzi_workers = list(map(lambda worker: worker['name'], all_platzi_workers))
-        
+    
+    
+    """Ciclos para imprimir las listas"""
     for worker in all_python_devs:
         print(worker)
         
