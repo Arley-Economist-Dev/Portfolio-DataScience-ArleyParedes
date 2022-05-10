@@ -1,5 +1,6 @@
-# Aqui se cargan los datos utilizando los diccionarios
+#Dependencias
 from audioop import reverse
+
 
 
 users = [
@@ -78,7 +79,6 @@ print(friendships[2]) # regresa [0, 1, 3]
 
 from collections import Counter
 
-from numpy import average     #cargando paquete counter
 def friends_of_friends(user):
     user_id = user["id"]
     return Counter(
@@ -258,19 +258,16 @@ interests = [
 (9, "Java"), (9, "MapReduce"), (9, "Big Data")
 ]
 
-    """En tu primer dia te preguntan sobre los temas en los que 
-    los usuarios se interesan mas
-    """
-    """La forma mas popular de encontrar los intereses mas populares 
+"""En tu primer dia te preguntan sobre los temas en los que los usuarios se interesan mas"""
+"""La forma mas popular de encontrar los intereses mas populares 
     es contar las palabras
     1- minusculas en cada interes (desde los usuarios diferentes
     o que pueden o no capitalizar sus intereses)
     2- dividir las palabras dentro de las palabras
-    3- contar los resultados
-    """
+    3- contar los resultados"""
 
-words_and_counts = Counter(word
-                           for user, interest in interests
+words_and_counts = Counter(word 
+                           for user, interest in interests 
                            for word in interest.lower().split())
 
 #esto se hace mas facil fuera de las palabras que ocurren mas veces
